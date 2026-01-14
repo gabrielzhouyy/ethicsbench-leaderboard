@@ -53,10 +53,11 @@ services:
     image: ghcr.io/agentbeats/agentbeats-client:v1.0.0
     platform: linux/amd64
     container_name: agentbeats-client
+    working_dir: /app
     volumes:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
-    command: ["scenario.toml", "output/results.json"]
+    command: ["/bin/sh", "-c", "sleep 45 && uv run agentbeats /app/scenario.toml /app/output/results.json"]
     depends_on:{client_depends}
     networks:
       - agent-network

@@ -208,15 +208,15 @@ def main():
 
     scenario = parse_scenario(args.scenario)
 
-    with open(COMPOSE_PATH, "w") as f:
+    with open(COMPOSE_PATH, "w", encoding="utf-8") as f:
         f.write(generate_docker_compose(scenario))
 
-    with open(A2A_SCENARIO_PATH, "w") as f:
+    with open(A2A_SCENARIO_PATH, "w", encoding="utf-8") as f:
         f.write(generate_a2a_scenario(scenario))
 
     env_content = generate_env_file(scenario)
     if env_content:
-        with open(ENV_PATH, "w") as f:
+        with open(ENV_PATH, "w", encoding="utf-8") as f:
             f.write(env_content)
         print(f"Generated {ENV_PATH}")
 

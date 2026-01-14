@@ -1,12 +1,12 @@
 [green_agent]
 image = "ghcr.io/gabrielzhouyy/ethics_bench:latest"
-env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", WHITE_AGENT_URL = "http://white_agent:9009" }
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", MODEL = "gemini-2.0-flash-exp" }
 
 [[participants]]
-agentbeats_id = "gabrielzhouyy-ethicsbench-white-agent-v1"
+agentbeats_id = ""
 name = "white_agent"
-image = "ghcr.io/gabrielzhouyy/white_agent:latest"
-env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
+image = ""
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", MODEL = "gemini-2.0-flash-exp" }
 
 [config]
 # EthicsBench evaluation settings
@@ -15,4 +15,3 @@ env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 # - Max 10 conversation turns per scenario (conversational back-and-forth)
 # - Max 3 debate room iterations per scenario (scorer_agent ↔ debate_critic_agent refine stakeholder/framework weights)
 # - Scoring: 20pts conclusion, 30pts stakeholder consideration, 50pts framework alignment
-# Test run: 2026-01-14 (retry 15 - use sh with exec to preserve entrypoint)

@@ -1,6 +1,6 @@
 [green_agent]
 image = "ghcr.io/gabrielzhouyy/ethics_bench:latest"
-env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", WHITE_AGENT_URL = "http://white_agent:9002" }
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", WHITE_AGENT_URL = "http://white_agent:9009" }
 
 [[participants]]
 agentbeats_id = "gabrielzhouyy-ethicsbench-white-agent-v1"

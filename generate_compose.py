@@ -26,6 +26,7 @@ A2A_SCENARIO_PATH = "a2a-scenario.toml"
 ENV_PATH = ".env.example"
 
 DEFAULT_PORT = 9002
+GREEN_AGENT_PORT = 9003
 
 COMPOSE_TEMPLATE = """# Auto-generated from scenario.toml
 
@@ -139,7 +140,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
-        green_port=DEFAULT_PORT,
+        green_port=GREEN_AGENT_PORT,
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
@@ -164,7 +165,7 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
     config_lines = [tomli_w.dumps({"config": config_section})]
 
     return A2A_SCENARIO_TEMPLATE.format(
-        green_port=DEFAULT_PORT,
+        green_port=GREEN_AGENT_PORT,
         participants="\n".join(participant_lines),
         config="\n".join(config_lines)
     )

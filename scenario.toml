@@ -1,11 +1,13 @@
 [green_agent]
 image = "ghcr.io/gabrielzhouyy/ethics_bench:latest"
+endpoint = "http://green-agent:9009"
 env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 
 [[participants]]
 agentbeats_id = "gabrielzhouyy-ethicsbench-white-agent-v1"
 name = "white_agent"
 image = "ghcr.io/gabrielzhouyy/white_agent:latest"
+endpoint = "http://white_agent:9009"
 env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 
 [config]

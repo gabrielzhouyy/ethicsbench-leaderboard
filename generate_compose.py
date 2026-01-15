@@ -47,27 +47,22 @@ services:
       - agent-network
 
 {participant_services}
-agentbeats-client:
-  image: ghcr.io/agentbeats/agentbeats-client:v1.0.0
-  platform: linux/amd64
-  container_name: agentbeats-client
-  volumes:
-    - ./a2a-scenario.toml:/app/scenario.toml
-    - ./output:/app/output
-  command: ["/bin/sh", "-c", "sleep 15 && exec scenario.toml output/results.json"]  # Explicit /bin/sh + exec
-  depends_on:
-    green-agent:
-      condition: service_healthy
-    white_agent:
-      condition: service_healthy
-  networks:
-    - agent-network
+  agentbeats-client:
+    image: ghcr.io/agentbeats/agentbeats-client:v1.0.0
+    platform: linux/amd64
+    container_name: agentbeats-client
+    volumes:
+      - ./a2a-scenario.toml:/app/scenario.toml
+      - ./output:/app/output
+    command: ["sh", "-c", "sleep 15 && scenario.toml output/results.json"]
+    depends_on:{client_depends}
+    networks:
+      - agent-network
 
 networks:
   agent-network:
     driver: bridge
 """
-
 
 
 PARTICIPANT_TEMPLATE = """  {name}:

@@ -54,7 +54,7 @@ services:
     volumes:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
-    command: ["sh", "-c", "sleep 15 && scenario.toml output/results.json"]
+    command: [ "sleep 15 && scenario.toml output/results.json"]
     depends_on:{client_depends}
     networks:
       - agent-network

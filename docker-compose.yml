@@ -8,10 +8,8 @@ services:
     command: ["python", "-m", "src.green_agent.green_server"]
     environment:
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - GREEN_AGENT_URL=http://green-agent:9009      # ← Add this
-      - WHITE_AGENT_URL=http://white-agent:9009      # ← Add this
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:9009/.well-known/agent-card.json"]
+      test: ["CMD", "curl", "-f", "http://localhost:9009/.well-known/agent-card.json"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -29,14 +27,12 @@ services:
     command: ["python", "-m", "src.white_agent.agent"]
     environment:
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - WHITE_AGENT_URL=http://white-agent:9009      # ← Add this
-      - GREEN_AGENT_URL=http://green-agent:9009      
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:9009/.well-known/agent-card.json"]
+      test: ["CMD", "curl", "-f", "http://localhost:9009/.well-known/agent-card.json"]
       interval: 5s
-      timeout: 5s
-      retries: 30
-      start_period: 60s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
     networks:
       - agent-network
 
@@ -47,7 +43,7 @@ services:
     volumes:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
-    command: ["scenario.toml", "output/results.json"]
+    command: ["sh", "-c", "sleep 15 && scenario.toml output/results.json"]
     depends_on:
       green-agent:
         condition: service_healthy

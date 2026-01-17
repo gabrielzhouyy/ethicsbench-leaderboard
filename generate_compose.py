@@ -80,7 +80,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
       - agent-network
 """
 
-A2A_SCENARIO_TEMPLATE = """[green_agent]
+A2A_SCENARIO_TEMPLATE = """[green-agent]
 endpoint = "http://green-agent:{green_port}"
 
 {participants}
@@ -96,6 +96,12 @@ def parse_scenario(scenario_path: Path) -> dict[str, Any]:
         if "agentbeats_id" not in participant:
             print(f"Error: Participant '{participant.get('name', 'unknown')}' is missing 'agentbeats_id' field")
             sys.exit(1)
+        # Minimal fix: Replace underscores with hyphens in names for DNS
+        participant["name"] = re.sub(r'_', '-', participant["name"])
+
+    # Minimal fix: Rename green_agent section to green-agent if present
+    if "green_agent" in data:
+        data["green-agent"] = data.pop("green_agent")
 
     return data
 
@@ -120,7 +126,7 @@ def format_depends_on(services: list) -> str:
 
 
 def generate_docker_compose(scenario: dict[str, Any]) -> str:
-    green = scenario["green_agent"]
+    green = scenario.get("green-agent", scenario.get("green_agent", {}))  # Fallback for old key
     participants = scenario.get("participants", [])
 
     participant_names = [p["name"] for p in participants]
@@ -138,7 +144,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
     all_services = ["green-agent"] + participant_names
 
     return COMPOSE_TEMPLATE.format(
-        green_image=green["image"],
+        green_image=green.get("image", ""),
         green_port=DEFAULT_PORT,
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
@@ -148,7 +154,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 
 
 def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
-    green = scenario["green_agent"]
+    green = scenario.get("green-agent", scenario.get("green_agent", {}))  # Fallback
     participants = scenario.get("participants", [])
 
     participant_lines = []
@@ -171,7 +177,7 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
 
 
 def generate_env_file(scenario: dict[str, Any]) -> str:
-    green = scenario["green_agent"]
+    green = scenario.get("green-agent", scenario.get("green_agent", {}))  # Fallback
     participants = scenario.get("participants", [])
 
     secrets = set()

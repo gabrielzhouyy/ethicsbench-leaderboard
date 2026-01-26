@@ -1,4 +1,4 @@
-[green_agent]
+[green]
 image = "ghcr.io/gabrielzhouyy/ethics_bench:latest"
 endpoint = "http://green-agent:9009"
 env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }

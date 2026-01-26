@@ -153,6 +153,13 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
     )
 
 
+# Change the template to use [green] instead of [green-agent]
+A2A_SCENARIO_TEMPLATE = """[green]
+endpoint = "http://green-agent:{green_port}"
+
+{participants}
+{config}"""
+
 def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
     green = scenario.get("green-agent", scenario.get("green_agent", {}))  # Fallback
     participants = scenario.get("participants", [])

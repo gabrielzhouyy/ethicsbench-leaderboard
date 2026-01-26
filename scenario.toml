@@ -7,7 +7,7 @@ env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 agentbeats_id = "gabrielzhouyy-ethicsbench-white-agent-v1"
 name = "white_agent"
 image = "ghcr.io/gabrielzhouyy/white_agent:latest"
-endpoint = "http://white_agent:9009"
+endpoint = "http://white-agent:9009"
 env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 
 [config]
@@ -17,4 +17,4 @@ env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 # - Max 10 conversation turns per scenario (conversational back-and-forth)
 # - Max 3 debate room iterations per scenario (scorer_agent ↔ debate_critic_agent refine stakeholder/framework weights)
 # - Scoring: 20pts conclusion, 30pts stakeholder consideration, 50pts framework alignment
-# Test run: 2026-01-17 change _ to -
+# Test run: 2026-01-26 change _ to - for white as wells

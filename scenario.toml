@@ -18,4 +18,3 @@ env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 # - Max 3 debate room iterations per scenario (scorer_agent ↔ debate_critic_agent refine stakeholder/framework weights)
 # - Scoring: 20pts conclusion, 30pts stakeholder consideration, 50pts framework alignment
 # Test run: 2026-01-26 change generate_a2a_scenario
-#

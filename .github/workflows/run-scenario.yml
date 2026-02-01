@@ -37,6 +37,14 @@ jobs:
         run: |
           echo "$SECRETS_JSON" | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > .env
 
+      - name: Validate required secrets
+        run: |
+          set -e
+          if ! grep -q "GOOGLE_API_KEY=." .env; then
+            echo "::error::GOOGLE_API_KEY secret is missing or empty. Please add it to your repository secrets."
+            exit 1
+          fi
+
       - name: Check if GHCR_TOKEN is available
         id: check_ghcr
         env:
@@ -57,7 +65,20 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Run assessment
-        run: docker compose up --exit-code-from agentbeats-client --abort-on-container-exit
+        run: docker compose --env-file .env up --exit-code-from agentbeats-client --abort-on-container-exit
+
+      - name: Capture docker logs
+        if: always()
+        run: |
+          docker compose logs > docker-compose.log 2>&1 || true
+
+      - name: Upload docker logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-logs
+          path: docker-compose.log
+          retention-days: 7
 
       - name: Generate submission metadata
         id: metadata
@@ -70,7 +91,12 @@ jobs:
 
       - name: Copy files to submission directory
         run: |
+          set -e
           cp scenario.toml submissions/${{ steps.metadata.outputs.unique_name }}.toml
+          if [ ! -f output/results.json ]; then
+            echo "::error::output/results.json not found. Evaluation may have failed."
+            exit 1
+          fi
           cp output/results.json results/${{ steps.metadata.outputs.unique_name }}.json
 
       - name: Determine target repository

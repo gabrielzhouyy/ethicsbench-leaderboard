@@ -127,6 +127,12 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 
     participant_names = [p["name"] for p in participants]
 
+    # Add WHITE_AGENT_URL to green agent env if participants exist
+    green_env = green.get("env", {}).copy()
+    if participant_names:
+        # Point to the first participant (white agent)
+        green_env["WHITE_AGENT_URL"] = f"http://{participant_names[0]}:{WHITE_AGENT_PORT}"
+
     participant_services = "\n".join([
         PARTICIPANT_TEMPLATE.format(
             name=p["name"],
@@ -140,7 +146,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
-        green_env=format_env_vars(green.get("env", {})),
+        green_env=format_env_vars(green_env),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
         client_depends=format_depends_on(all_services)

@@ -1,0 +1,18 @@
+[green_agent]
+image = "ghcr.io/gabrielzhouyy/ethics_bench:latest"
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
+
+[[participants]]
+agentbeats_id = "gabrielzhouyy-ethicsbench-white-agent-v1"
+name = "white_agent"
+image = "ghcr.io/gabrielzhouyy/white_agent:latest"
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
+
+[config]
+# EthicsBench evaluation settings
+# Note: Current implementation has hardcoded evaluation logic:
+# - Evaluates 3 randomly selected scenarios from 6 predefined ethical dilemmas
+# - Max 10 conversation turns per scenario (conversational back-and-forth)
+# - Max 3 debate room iterations per scenario (scorer_agent ↔ debate_critic_agent refine stakeholder/framework weights)
+# - Scoring: 20pts conclusion, 30pts stakeholder consideration, 50pts framework alignment
+# Trigger run: 2026-02-02 (fixed a2a-scenario.toml with correct ports and empty config)

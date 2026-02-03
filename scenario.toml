@@ -15,4 +15,4 @@ env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}" }
 # - Max 10 conversation turns per scenario (conversational back-and-forth)
 # - Max 3 debate room iterations per scenario (scorer_agent ↔ debate_critic_agent refine stakeholder/framework weights)
 # - Scoring: 20pts conclusion, 30pts stakeholder consideration, 50pts framework alignment
-# Trigger run: 2026-02-03.2
+# Trigger run: 2026-02-03.3

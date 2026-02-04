@@ -160,11 +160,38 @@ jobs:
         run: |
           set -e
           cp scenario.toml submissions/${{ steps.metadata.outputs.unique_name }}.toml
-          if [ ! -f output/results.json ]; then
-            echo "::error::output/results.json not found. Evaluation may have failed."
+
+          # Prefer green-agent's direct output (evaluation_results.json) over agentbeats-client (results.json)
+          RESULTS_FILE=""
+          if [ -f output/evaluation_results.json ]; then
+            echo "✓ Using green-agent's evaluation_results.json"
+            RESULTS_FILE="output/evaluation_results.json"
+          elif [ -f output/results.json ]; then
+            echo "::warning::evaluation_results.json not found, falling back to results.json"
+            RESULTS_FILE="output/results.json"
+          else
+            echo "::error::No results file found. Evaluation may have failed."
             exit 1
           fi
-          cp output/results.json results/${{ steps.metadata.outputs.unique_name }}.json
+
+          # Validate results file has actual evaluation data (not a stub)
+          if ! grep -q '"evaluation_complete"' "$RESULTS_FILE"; then
+            echo "::warning::Results file may be incomplete - missing evaluation_complete field"
+            echo "Contents of $RESULTS_FILE:"
+            cat "$RESULTS_FILE"
+          fi
+
+          # Check for non-empty results array
+          RESULTS_COUNT=$(python3 -c "import json; data=json.load(open('$RESULTS_FILE')); print(len(data.get('results', [])))" 2>/dev/null || echo "0")
+          if [ "$RESULTS_COUNT" = "0" ]; then
+            echo "::error::Results file has empty results array - evaluation may have failed"
+            echo "Contents of $RESULTS_FILE:"
+            cat "$RESULTS_FILE"
+            exit 1
+          fi
+
+          echo "✓ Results file contains $RESULTS_COUNT evaluation results"
+          cp "$RESULTS_FILE" results/${{ steps.metadata.outputs.unique_name }}.json
 
       - name: Determine target repository
         id: target

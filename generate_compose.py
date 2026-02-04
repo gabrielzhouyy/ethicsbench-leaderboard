@@ -38,6 +38,8 @@ services:
     container_name: green-agent
     command: ["python", "-m", "src.green_agent.green_server"]
     environment:{green_env}
+    volumes:
+      - ./output:/app/output
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9003/.well-known/agent-card.json"]
       interval: 5s

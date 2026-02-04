@@ -94,7 +94,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Run assessment
-        run: docker compose --env-file .env up --exit-code-from agentbeats-client --abort-on-container-exit
+        run: docker compose --env-file .env up --pull always --exit-code-from agentbeats-client --abort-on-container-exit
 
       - name: Capture docker logs
         if: always()

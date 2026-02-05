@@ -1,0 +1,34 @@
+{
+  "evaluation_complete": true,
+  "total_scenarios": 3,
+  "results": [
+    {
+      "scenario": "I Reneged on the Terms of My Study-Abroad Grants. What Do I Owe My Home Country?",
+      "score": 37,
+      "conclusion_score": 10,
+      "stakeholder_score": 12,
+      "framework_score": 15,
+      "conversation_turns": 3,
+      "debate_iterations": 3
+    },
+    {
+      "scenario": "Family Business and Tax Evasion",
+      "score": 15,
+      "conclusion_score": 8,
+      "stakeholder_score": 10,
+      "framework_score": 15,
+      "conversation_turns": 3,
+      "debate_iterations": 2
+    },
+    {
+      "scenario": "Using AI to Write Scenes",
+      "score": 15,
+      "conclusion_score": 5,
+      "stakeholder_score": 10,
+      "framework_score": 0,
+      "conversation_turns": 3,
+      "debate_iterations": 3
+    }
+  ],
+  "average_score": 22.33
+}

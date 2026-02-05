@@ -1,0 +1,34 @@
+{
+  "evaluation_complete": true,
+  "total_scenarios": 3,
+  "results": [
+    {
+      "scenario": "Our Gardener Wants to Avoid Taxes. Should We Pay Him in Cash?",
+      "score": 15,
+      "conclusion_score": 18,
+      "stakeholder_score": 20,
+      "framework_score": 30,
+      "conversation_turns": 3,
+      "debate_iterations": 1
+    },
+    {
+      "scenario": "Confronting the Bully",
+      "score": 25,
+      "conclusion_score": 15,
+      "stakeholder_score": 18,
+      "framework_score": 0,
+      "conversation_turns": 3,
+      "debate_iterations": 1
+    },
+    {
+      "scenario": "I Reneged on the Terms of My Study-Abroad Grants. What Do I Owe My Home Country?",
+      "score": 50,
+      "conclusion_score": 0,
+      "stakeholder_score": 0,
+      "framework_score": 0,
+      "conversation_turns": 0,
+      "debate_iterations": 0
+    }
+  ],
+  "average_score": 30.0
+}
